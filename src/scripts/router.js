@@ -9,7 +9,7 @@ document.addEventListener("click", (event) => {
 
 const routes = {
   404: "/src/pages/notFound.html",
-  "/": "/index.html",
+  "/": "/src/pages/mainPage.html",
   "/login": "/src/pages/login.html",
 };
 
