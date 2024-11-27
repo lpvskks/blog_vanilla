@@ -11,6 +11,7 @@ const routes = {
   404: "/src/pages/notFound.html",
   "/": "/src/pages/mainPage.html",
   "/login": "/src/pages/login.html",
+  "/registration": "/src/pages/registration.html",
 };
 
 const urlRoute = (event) => {
