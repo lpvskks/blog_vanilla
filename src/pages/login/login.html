@@ -4,12 +4,17 @@
     <div class="mb-3">
       <label for="email" class="form-label text-dark mb-1">Email</label>
       <input type="email" class="form-control" id="email" placeholder="name@example.com">
+      <div id="emailError" class="text-danger mt-1" style="font-size: 0.875em;"></div>
     </div>
     <div class="mb-2">
       <label for="password" class="form-label text-dark mb-1">Пароль</label>
       <input type="password" class="form-control" id="password">
+      <div id="passwordError" class="text-danger mt-1" style="font-size: 0.875em;"></div>
     </div>
-    <button type="submit" class="btn btn-primary w-100 my-3">Войти</button>
+    <div id="generalError" class="text-danger mb-2" style="font-size: 0.875em;"></div>
+    <button type="button" id="loginBtn" class="btn btn-primary w-100 my-3">Войти</button>
     <a href="/registration" class="btn btn-secondary w-100">Зарегистрироваться</a>
   </form>
 </div>
+
+<script type="module" src="/src/pages/login/login.js"></script>
