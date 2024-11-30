@@ -2,16 +2,16 @@
   <h2 class="mb-2 fw-bold text-start">Вход</h2>
   <form>
     <div class="mb-3">
-      <label for="email" class="form-label text-dark mb-1">Email</label>
+      <label for="email" class="form-label text-dark mb-1">Email <span class="text-danger">*</span></label>
       <input type="email" class="form-control" id="email" placeholder="name@example.com">
       <div id="emailError" class="text-danger mt-1" style="font-size: 0.875em;"></div>
     </div>
     <div class="mb-2">
-      <label for="password" class="form-label text-dark mb-1">Пароль</label>
+      <label for="password" class="form-label text-dark mb-1" >Пароль <span class="text-danger">*</span></label>
       <input type="password" class="form-control" id="password">
       <div id="passwordError" class="text-danger mt-1" style="font-size: 0.875em;"></div>
     </div>
-    <div id="generalError" class="text-danger mb-2" style="font-size: 0.875em;"></div>
+    <div id="error" class="text-danger mb-2" style="font-size: 0.875em;"></div>
     <button type="button" id="loginBtn" class="btn btn-primary w-100 my-3">Войти</button>
     <a href="/registration" class="btn btn-secondary w-100">Зарегистрироваться</a>
   </form>

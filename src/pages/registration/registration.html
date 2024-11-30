@@ -2,7 +2,7 @@
   <h2 class="mb-2 fw-bold text-start">Регистрация</h2>
   <form>
     <div class="mb-3">
-      <label for="name" class="form-label text-dark mb-1">ФИО</label>
+      <label for="name" class="form-label text-dark mb-1">ФИО <span class="text-danger">*</span></label>
       <input type="name" class="form-control" id="name" placeholder="Иванов Иван Иванович">
     </div>
     <div class="mb-3">
@@ -10,7 +10,7 @@
       <input type="date" class="form-control" id="birthdate">
     </div>
     <div class="mb-3">
-      <label for="gender" class="form-label text-dark mb-1">Пол</label>
+      <label for="gender" class="form-label text-dark mb-1">Пол <span class="text-danger">*</span></label>
       <select class="form-select" id="gender">
         <option value="male">Мужской</option>
         <option value="female">Женский</option>
@@ -21,14 +21,16 @@
       <input type="phone" class="form-control" id="phone" placeholder="+7 (xxx)-xx-xx">
     </div>
     <div class="mb-3">
-      <label for="email" class="form-label text-dark mb-1">Email</label>
+      <label for="email" class="form-label text-dark mb-1">Email <span class="text-danger">*</span></label>
       <input type="email" class="form-control" id="email" placeholder="name@example.com">
       <small class="text-muted">Email будет использоваться для входа в систему</small>
     </div>
     <div class="mb-2">
-      <label for="password" class="form-label text-dark mb-1">Password</label>
+      <label for="password" class="form-label text-dark mb-1">Password <span class="text-danger">*</span></label>
       <input type="password" class="form-control" id="password">
     </div>
-    <button type="submit" class="btn btn-primary w-100 my-1">Зарегистрироваться</button>
+    <div id="error" class="text-danger mb-2" style="font-size: 0.875em;"></div>
+    <button type="button" id="registerBtn" class="btn btn-primary w-100 my-1">Зарегистрироваться</button>
   </form>
 </div>
+<script type="module" src="/src/pages/registration/registration.js"></script>

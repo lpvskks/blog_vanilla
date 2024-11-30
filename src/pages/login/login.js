@@ -5,19 +5,19 @@ const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const emailError = document.getElementById("emailError");
 const passwordError = document.getElementById("passwordError");
-const generalError = document.getElementById("generalError");
+const error = document.getElementById("error");
 
 loginButton.addEventListener("click", async (event) => {
   event.preventDefault();
   emailError.textContent = "";
   passwordError.textContent = "";
-  generalError.textContent = "";
+  error.textContent = "";
 
   const email = emailInput.value.trim();
   const password = passwordInput.value.trim();
 
   if (!email || !password) {
-    generalError.textContent = "Необходимо заполнить все поля.";
+    error.textContent = "Необходимо заполнить все поля.";
     return;
   }
 
@@ -51,16 +51,16 @@ loginButton.addEventListener("click", async (event) => {
         localStorage.setItem("authToken", data.token);
         navigateTo("/"); 
       } else {
-        generalError.textContent = "Ошибка: токен авторизации не получен.";
+        error.textContent = "Ошибка: токен авторизации не получен.";
       }
     } else if (response.status === 400) {
-      generalError.textContent = "Неверный логин или пароль.";
+      error.textContent = "Неверный логин или пароль.";
     } else if (response.status === 500) {
-      generalError.textContent = "Внутренняя ошибка сервера. Попробуйте позже.";
+      error.textContent = "Внутренняя ошибка сервера. Попробуйте позже.";
     } else {
-      generalError.textContent = "Что-то пошло не так. Попробуйте снова.";
+      error.textContent = "Что-то пошло не так. Попробуйте снова.";
     }
   } catch (error) {
-    generalError.textContent = "Проблема с подключением. Проверьте интернет.";
+    error.textContent = "Проблема с подключением. Проверьте интернет.";
   }
 });
