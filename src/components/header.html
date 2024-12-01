@@ -4,9 +4,28 @@
       <li class="nav-item d-flex align-items-center">
         <span class="h5 mb-0 me-4 fw-normal text-dark" style="font-size: 1.5rem;">Блог №415</span>
         <a href="/" class="nav-link text-dark text-decoration-none fw-normal p-0" style="font-size: 1.2rem;">Главная</a>
+        <!-- Ссылка "Написать пост", скрыта по умолчанию -->
+        <a href="/create-post" class="nav-link text-dark text-decoration-none fw-normal p-0 ms-4 d-none" id="writePostLink" style="font-size: 1.2rem;">Написать пост</a>
       </li>
       <li class="list-inline-item">
-        <a href="/login" class="nav-link text-dark text-decoration-none fw-normal p-0" style="font-size: 1.2rem;">Вход</a>
+        <!-- Кнопка "Вход" для гостей -->
+        <a href="/login" class="nav-link text-dark text-decoration-none fw-normal p-0" id="loginButton" style="font-size: 1.2rem;">Вход</a>
+        <!-- Выпадающее меню пользователя, скрыто по умолчанию -->
+        <div class="dropdown d-none" id="userDropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="userDropdownButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span id="userEmail">User</span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="userDropdownButton">
+            <li><a class="dropdown-item" href="/profile">Профиль</a></li>
+            <li><button class="dropdown-item" id="logoutButton">Выход</button></li>
+          </ul>
+        </div>
       </li>
     </ul>
   </div>

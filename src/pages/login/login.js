@@ -1,4 +1,5 @@
 import { navigateTo } from "/src/scripts/router.js";
+import { updateHeader } from "/main.js";
 
 const loginButton = document.getElementById("loginBtn");
 const emailInput = document.getElementById("email");
@@ -49,6 +50,8 @@ loginButton.addEventListener("click", async (event) => {
 
       if (data.token) {
         localStorage.setItem("authToken", data.token);
+        localStorage.setItem("userEmail", email);
+        updateHeader();
         navigateTo("/"); 
       } else {
         error.textContent = "Ошибка: токен авторизации не получен.";
