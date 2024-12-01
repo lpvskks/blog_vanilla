@@ -32,6 +32,12 @@ registerBtn.addEventListener("click", async (event) => {
     return;
   }
 
+  const phoneRegex = /^(\+7|8)[\s\-]?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/;
+  if (phone && !phoneRegex.test(phone)) {
+    error.textContent = "Введите корректный номер телефона.";
+    return;
+  }
+
   if (password.length < 8) {
     error.textContent = "Пароль должен содержать минимум 8 символов.";
     return;
@@ -62,8 +68,12 @@ registerBtn.addEventListener("click", async (event) => {
 
       if (data.token) {
         localStorage.setItem("authToken", data.token);
-        navigateTo("/login"); 
-      } else {
+        document.getElementById('successMessage').classList.remove('d-none');
+        
+    setTimeout(() => {
+      navigateTo("/login");
+    }, 1000); 
+   } else {
         error.textContent = "Ошибка: токен авторизации не получен.";
       }
     } else if (response.status === 400) {

@@ -52,8 +52,12 @@ loginButton.addEventListener("click", async (event) => {
         localStorage.setItem("authToken", data.token);
         localStorage.setItem("userEmail", email);
         updateHeader();
-        navigateTo("/"); 
-      } else {
+        successMessage.classList.remove("d-none");
+
+        setTimeout(() => {
+          navigateTo("/"); 
+        }, 1000); 
+      }  else {
         error.textContent = "Ошибка: токен авторизации не получен.";
       }
     } else if (response.status === 400) {
