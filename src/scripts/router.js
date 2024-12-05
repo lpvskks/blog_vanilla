@@ -1,6 +1,6 @@
 const routes = {
   404: "/src/pages/notFound.html",
-  "/": "/src/pages/mainPage.html",
+  "/": "/src/pages/mainPage/mainPage.html",
   "/login": "/src/pages/login/login.html",
   "/registration": "/src/pages/registration/registration.html",
   "/profile": "/src/pages/profile/profile.html",

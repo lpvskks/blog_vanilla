@@ -22,7 +22,6 @@ export async function updateHeader() {
   const token = localStorage.getItem("authToken");
   const email = localStorage.getItem("userEmail");
 
-  const writePostLink = document.getElementById("writePostLink");
   const loginButton = document.getElementById("loginButton");
   const userDropdown = document.getElementById("userDropdown");
   const userEmail = document.getElementById("userEmail");
@@ -30,7 +29,6 @@ export async function updateHeader() {
   if (token) {
     console.log("Токен найден, пользователь авторизован.");
 
-    if (writePostLink) writePostLink.classList.remove("d-none");
     if (loginButton) loginButton.classList.add("d-none");
     if (userDropdown) userDropdown.classList.remove("d-none");
 
@@ -38,7 +36,6 @@ export async function updateHeader() {
   } else {
     console.log("Токен не найден, пользователь не авторизован.");
 
-    if (writePostLink) writePostLink.classList.add("d-none");
     if (loginButton) loginButton.classList.remove("d-none");
     if (userDropdown) userDropdown.classList.add("d-none");
   }
