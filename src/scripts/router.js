@@ -4,6 +4,7 @@ const routes = {
   "/login": "/src/pages/login/login.html",
   "/registration": "/src/pages/registration/registration.html",
   "/profile": "/src/pages/profile/profile.html",
+  "/communities": "src/pages/community/communityList/communityList.html",
 };
 
 export const navigateTo = (path) => {
