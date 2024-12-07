@@ -1,0 +1,42 @@
+<div class="container my-4" style="max-width: 1100px;">
+  <div class="border rounded">
+    <div class="px-3 py-2">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">Группа "<span id="community-name">Загрузка...</span>"</h3>
+        <div class="d-flex">
+          <button class="btn btn-primary btn-sm d-none" id="write-post">Написать пост</button> 
+          <button class="btn btn-primary btn-sm d-none" id="subscribe-btn">Подписаться</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-3">
+      <div class="d-flex justify-content-start align-items-center mb-3">
+        <i class="bi bi-people-fill me-2" style="font-size: 1.2rem;"></i>
+        <span id="subscriber-count">0 </span> подписчиков
+      </div>
+
+      <div class="mb-3">
+        <strong>Тип сообщества:</strong>
+        <span id="community-type">Загрузка...</span>
+      </div>
+
+      <div class="mb-4">
+        <strong>Администраторы</strong>
+        <div class="d-flex align-items-center mb-2">
+          <img src="admin-image.jpg" alt="Администратор" class="rounded-circle" width="50" height="50">
+          <span class="ms-2" id="admin-name">Загрузка...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="errorMessage" class="alert alert-danger d-none mt-3" role="alert">
+    Необходимо авторизоваться!
+  </div>
+</div>
+
+
+<script type="module" src="/src/pages/community/specificCommunity/checkRole.js" defer></script>
+<script type="module" src="/src/pages/community/specificCommunity/specificCommunity.js" defer></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">

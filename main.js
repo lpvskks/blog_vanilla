@@ -41,5 +41,10 @@ export async function updateHeader() {
   }
 };
 
-loadComponent("header", "src/components/header.html");
-loadComponent("footer", "src/components/footer.html");
+async function initializeLayout() {
+  await loadComponent("header", "/src/components/header.html");
+  await loadComponent("footer", "/src/components/footer.html");
+  updateHeader();
+}
+
+initializeLayout();
