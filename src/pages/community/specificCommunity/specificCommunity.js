@@ -8,7 +8,7 @@ async function fetchCommunityData(communityId) {
     const communityData = await response.json();
 
     document.getElementById("community-name").textContent = communityData.name;
-    document.getElementById("community-type").textContent = communityData.isClosed ? "Закрытое" : "Открытое";
+    document.getElementById("community-type").textContent = communityData.isClosed ? " закрытое" : " открытое";
     document.getElementById("subscriber-count").textContent = communityData.subscribersCount;
 
     const admin = communityData.administrators?.[0];
