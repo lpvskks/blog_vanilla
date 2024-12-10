@@ -14,6 +14,7 @@ const postsPerPageInput = document.getElementById('posts-per-page');
 const postsContainer = document.getElementById('posts-container');
 const sortSelect = document.getElementById('sort');
 const tagSelect = document.getElementById('tagSelect');
+const applyChangesBtn = document.getElementById('applyChanges'); 
 
 const token = localStorage.getItem('authToken');
 
@@ -29,7 +30,7 @@ function updateUrl(page, pageSize, sorting, tags) {
   params.set('size', pageSize);
   if (sorting) params.set('sorting', sorting);
   if (tags.length) params.set('tags', tags.join(','));
-  
+
   const newUrl = `${window.location.pathname}?${params.toString()}`;
   window.history.pushState({}, '', newUrl);
   loadPosts(page, pageSize, sorting, tags);
@@ -130,6 +131,14 @@ function renderPagination(page, total) {
   }
 }
 
+// Слушатели событий
+applyChangesBtn.addEventListener('click', () => {
+  const sorting = sortSelect.value;
+  selectedTags = Array.from(tagSelect.selectedOptions).map(option => option.value);
+
+  updateUrl(currentPage, postsPerPage, sorting, selectedTags);
+});
+
 prevPageBtn.addEventListener('click', () => {
   if (currentPage > 1) {
     currentPage--;
@@ -148,17 +157,13 @@ postsPerPageInput.addEventListener('change', () => {
   const newPostsPerPage = parseInt(postsPerPageInput.value);
   if (newPostsPerPage > 0) {
     postsPerPage = newPostsPerPage;
-    debounceRequest(() => updateUrl(currentPage, postsPerPage, sortSelect.value, selectedTags), 300);
   }
 });
 
 sortSelect.addEventListener('change', () => {
-  debounceRequest(() => updateUrl(currentPage, postsPerPage, sortSelect.value, selectedTags), 300);
 });
 
 tagSelect.addEventListener('change', () => {
-  selectedTags = Array.from(tagSelect.selectedOptions).map(option => option.value);
-  debounceRequest(() => updateUrl(currentPage, postsPerPage, sortSelect.value, selectedTags), 300);
 });
 
 loadCommunityDetails();

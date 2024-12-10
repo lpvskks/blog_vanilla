@@ -1,65 +1,154 @@
-const writePostBtn = document.getElementById('write-post');
-const token = localStorage.getItem("authToken");
+const api = 'https://blog.kreosoft.space/api/post';
+const urlParams = new URLSearchParams(window.location.search);
 
-if (token && writePostBtn) {
-  writePostBtn.classList.remove('d-none');
-};
+let currentPage = parseInt(urlParams.get('page')) || 1;
+let postsPerPage = parseInt(urlParams.get('size')) || 5;
+let totalPages = 5;
+let selectedTags = [];
 
-async function fetchPosts() {
-  const response = await fetch('https://blog.kreosoft.space/api/post');
-  const data = await response.json();
+const prevPageBtn = document.getElementById('prev-page-btn');
+const nextPageBtn = document.getElementById('next-page-btn');
+const paginationNumbers = document.getElementById('pagination-numbers');
+const postsPerPageInput = document.getElementById('posts-per-page');
+const postsContainer = document.getElementById('posts-container');
+const sortSelect = document.getElementById('sort');
+const tagSelect = document.getElementById('tagSelect');
+const searchAuthorInput = document.getElementById('searchAuthor');
+const readingTimeFromInput = document.getElementById('readingTimeFrom');
+const readingTimeToInput = document.getElementById('readingTimeTo');
+const myGroupsCheckbox = document.getElementById('myGroups');
+const applyChangesBtn = document.getElementById('applyChanges'); 
+const token = localStorage.getItem('authToken');
 
-  const posts = data.posts;
-  const pagination = data.pagination;
+function collectFilters() {
+  const sorting = sortSelect.value;
+  const author = searchAuthorInput.value.trim();
+  const minReadingTime = parseInt(readingTimeFromInput.value) || 0;
+  const maxReadingTime = parseInt(readingTimeToInput.value) || 0;
+  const onlyMyGroups = myGroupsCheckbox.checked;
+  selectedTags = Array.from(tagSelect.selectedOptions).map(option => option.value);
 
-  const postsContainer = document.getElementById('posts-container');
-  postsContainer.innerHTML = ''; 
+  return {
+    page: currentPage,
+    size: postsPerPage,
+    sorting: sorting,
+    tags: selectedTags,
+    author: author,
+    min: minReadingTime,
+    max: maxReadingTime,
+    onlyMyCommunities: onlyMyGroups,
+  };
+}
 
-  posts.forEach(post => {
-    const postElement = document.createElement('div');
-    postElement.classList.add('border', 'rounded', 'mb-3');
-    postElement.innerHTML = `
-      <div class="p-3">
-        <strong>${post.title} - ${new Date(post.createTime).toLocaleString()}</strong>
-        <span class="text-muted">в сообществе "${post.communityName}"</span>
-      </div>
-      <div class="px-3">
-        <h5 class="fw-bold">${post.title}</h5>
-        <hr class="mt-1 mb-2">
-      </div>
-      <div class="px-3">
-        <p class="mb-2">${post.description}</p>
-      </div>
-      <div class="px-3 mb-2">
-        ${post.tags.map(tag => `<span class="text-muted">#${tag.name}</span>`).join(' ')}
-      </div>
-      <div class="px-3 mb-2">
-        <span>Время прочтения: ${post.readingTime} минут</span>
-      </div>
-      <div class="bg-light border-top px-3 py-2 d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-          <span class="me-2 fs-6">${post.commentsCount}</span>
-          <i class="bi bi-chat-left-text fs-6" style="cursor: pointer;"></i>
-        </div>
-        <div class="d-flex align-items-center">
-          <span id="likeCount" class="me-2 fs-6">${post.likes}</span>
-          <i class="bi bi-heart text-muted fs-6" id="likeIcon" style="cursor: pointer;"></i>
-        </div>
-      </div>
-    `;
-    postsContainer.appendChild(postElement);
-  });
+function updateUrl(filters) {
+  const params = new URLSearchParams();
+  params.set('page', filters.page);
+  params.set('size', filters.size);
+  if (filters.sorting) params.set('sorting', filters.sorting);
+  if (filters.tags.length) params.set('tags', filters.tags.join(','));
+  if (filters.author) params.set('author', filters.author);
+  if (filters.min > 0) params.set('min', filters.min);
+  if (filters.max > 0) params.set('max', filters.max);
+  if (filters.onlyMyCommunities) params.set('onlyMyCommunities', true);
 
-  const paginationContainer = document.getElementById('pagination-container');
-  paginationContainer.innerHTML = ''; 
+  const newUrl = `${window.location.pathname}?${params.toString()}`;
+  console.log('Updating URL:', newUrl);
+  window.history.pushState({}, '', newUrl);
 
-  for (let i = 1; i <= pagination.count; i++) {
-    const pageItem = document.createElement('li');
-    pageItem.classList.add('page-item');
-    pageItem.innerHTML = `
-      <a class="page-link text-primary border-primary" href="#" data-page="${i}">${i}</a>
-    `;
-    paginationContainer.appendChild(pageItem);
+  loadPosts(filters);
+}
+
+async function loadPosts(filters) {
+  const requestUrl = new URL(`${api}`);
+  requestUrl.searchParams.set('page', filters.page);
+  requestUrl.searchParams.set('size', filters.size);
+  if (filters.sorting) requestUrl.searchParams.set('sorting', filters.sorting);
+  if (filters.tags.length) requestUrl.searchParams.set('tags', filters.tags.join(','));
+  if (filters.author) requestUrl.searchParams.set('author', filters.author);
+  if (filters.min > 0) requestUrl.searchParams.set('min', filters.min);
+  if (filters.max > 0) requestUrl.searchParams.set('max', filters.max);
+  if (filters.onlyMyCommunities) requestUrl.searchParams.set('onlyMyCommunities', true);
+
+  console.log('Fetching posts with URL:', requestUrl.toString());
+
+  try {
+    const response = await fetch(requestUrl.toString(), {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+
+    if (response.status === 403) {
+      postsContainer.innerHTML = '<p>У вас нет доступа к постам. Подпишитесь, чтобы увидеть содержимое.</p>';
+      return;
+    }
+
+    if (!response.ok) throw new Error('Ошибка загрузки постов');
+
+    const data = await response.json();
+    console.log('Posts loaded:', data);
+
+    totalPages = data.pagination?.count || totalPages;
+
+    renderPosts(data.posts);
+    renderPagination(filters.page, totalPages);
+  } catch (error) {
+    console.error('Ошибка при загрузке постов:', error);
+    postsContainer.innerHTML = '<p>Ошибка при загрузке постов. Попробуйте позже.</p>';
   }
 }
-fetchPosts();
+
+function renderPosts(posts) {
+  console.log('Rendering posts:', posts);
+
+  const postTemplate = document.querySelector('.post-template');
+  if (!postTemplate) {
+    console.error("Шаблон поста не найден");
+    return;
+  }
+
+  postsContainer.querySelectorAll('.post-template:not(.d-none)').forEach(post => post.remove());
+
+  posts.forEach(post => {
+    const postElement = postTemplate.cloneNode(true);
+    postElement.classList.remove('d-none');
+
+    postElement.querySelector('.post-author').textContent = `${post.author} - ${new Date(post.createTime).toLocaleString()}`;
+    postElement.querySelector('.post-title').textContent = post.title;
+    postElement.querySelector('.post-description').textContent = post.description;
+    postElement.querySelector('.post-tags').innerHTML = post.tags.map(tag => `<span class="text-muted">#${tag.name}</span>`).join(' ');
+    postElement.querySelector('.post-reading-time').textContent = `${post.readingTime}`;
+    postElement.querySelector('.post-comments-count').textContent = `${post.commentsCount} комментариев`;
+    postElement.querySelector('.post-likes').textContent = `${post.likes} лайков`;
+
+    postsContainer.appendChild(postElement);
+  });
+}
+
+function renderPagination(page, total) {
+  paginationNumbers.innerHTML = '';
+
+  const startPage = Math.max(1, page - 1);
+  const endPage = Math.min(total, startPage + 2);
+
+  for (let i = startPage; i <= endPage; i++) {
+    const pageBtn = document.createElement('button');
+    pageBtn.className = `btn mx-1 ${i === page ? 'btn-primary' : 'btn-outline-primary'}`;
+    pageBtn.textContent = i;
+
+    pageBtn.addEventListener('click', () => {
+      if (currentPage !== i) {
+        currentPage = i;
+        const filters = collectFilters();
+        filters.page = currentPage;
+        updateUrl(filters);
+      }
+    });
+
+    paginationNumbers.appendChild(pageBtn);
+  }
+}
+applyChangesBtn.addEventListener('click', () => {
+  const filters = collectFilters();
+  updateUrl(filters);
+});
+
+loadPosts(collectFilters());  

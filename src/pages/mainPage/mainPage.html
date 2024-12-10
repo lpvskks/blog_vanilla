@@ -45,26 +45,56 @@
             <div class="col-md-4 d-flex align-items-center">
               <input type="checkbox" id="myGroups" class="form-check-input me-1"> 
               <label for="myGroups" class="form-check-label me-2">Только мои группы</label>
-              <button class="btn btn-primary btn-sm ms-auto">Применить</button> 
+              <button class="btn btn-primary btn-sm ms-auto" id="applyChanges">Применить</button> 
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div id="posts-container" class="mt-4">
+  <div id="posts-container" class="my-4">
+    <div class="post-template border rounded mb-3 d-none">
+      <div class="p-3">
+        <span class="text-secondary fw-normal post-author">Автор - Время</span>
+      </div>
+      <div class="px-3">
+        <h5 class="fw-bold post-title">Заголовок поста</h5>
+        <hr class="mt-1 mb-2">
+      </div>
+      <div class="px-3">
+        <p class="mb-2 post-description">Описание поста...</p>
+      </div>
+      <div class="px-3 mb-2 post-tags">
+        #Теги
+      </div>
+      <div class="px-3 mb-2">
+        <span>Время прочтения: <span class="post-reading-time">0</span> мин.</span>
+      </div>
+      <div class="bg-light border-top px-3 py-2 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <span class="me-2 fs-6 post-comments-count">0</span>
+          <i class="bi bi-chat-left-text fs-6" style="cursor: pointer;"></i>
+        </div>
+        <div class="d-flex align-items-center">
+          <span id="likeCount" class="me-2 fs-6 post-likes">0</span>
+          <i class="bi bi-heart text-muted fs-6" id="likeIcon" style="cursor: pointer;"></i>
+        </div>
+      </div>
+    </div>
   </div>
+  
 
-  <div class="d-flex justify-content-between align-items-center mt-4">
-    <nav aria-label="Page navigation">
-      <ul class="pagination mb-0" id="pagination-container">
-      </ul>
-    </nav>
-
-    <div class="d-flex flex-column align-items-end ms-3">
-      <label for="postsPerPage" class="form-label mb-1">Число постов на странице</label>
-      <input type="number" id="postsPerPage" class="form-control form-control-sm" value="10" min="1" max="169" style="width: 100px;">
+  <div class="my-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center">
+        <button id="prev-page-btn" class="btn btn-outline-primary">&lt;&lt;</button>
+        <div id="pagination-numbers" class="d-flex mx-2"></div>
+        <button id="next-page-btn" class="btn btn-outline-primary">>></button>
+      </div>
+      <div class="d-flex align-items-center">
+        <label for="posts-per-page" class="form-label me-2 mb-0">Постов на странице:</label>
+        <input type="number" id="posts-per-page" class="form-control d-inline-block" style="width: 80px;" min="1" value="5">
+      </div>
     </div>
   </div>
 </div>
