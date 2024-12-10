@@ -18,7 +18,12 @@ const readingTimeFromInput = document.getElementById('readingTimeFrom');
 const readingTimeToInput = document.getElementById('readingTimeTo');
 const myGroupsCheckbox = document.getElementById('myGroups');
 const applyChangesBtn = document.getElementById('applyChanges'); 
+const writePost = document.getElementById("write-post")
 const token = localStorage.getItem('authToken');
+
+if (token) {
+   writePost.classList.remove("d-none");
+}
 
 function collectFilters() {
   const sorting = sortSelect.value;
@@ -76,11 +81,6 @@ async function loadPosts(filters) {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     });
 
-    if (response.status === 403) {
-      postsContainer.innerHTML = '<p>У вас нет доступа к постам. Подпишитесь, чтобы увидеть содержимое.</p>';
-      return;
-    }
-
     if (!response.ok) throw new Error('Ошибка загрузки постов');
 
     const data = await response.json();
@@ -97,14 +97,8 @@ async function loadPosts(filters) {
 }
 
 function renderPosts(posts) {
-  console.log('Rendering posts:', posts);
 
   const postTemplate = document.querySelector('.post-template');
-  if (!postTemplate) {
-    console.error("Шаблон поста не найден");
-    return;
-  }
-
   postsContainer.querySelectorAll('.post-template:not(.d-none)').forEach(post => post.remove());
 
   posts.forEach(post => {
@@ -116,8 +110,8 @@ function renderPosts(posts) {
     postElement.querySelector('.post-description').textContent = post.description;
     postElement.querySelector('.post-tags').innerHTML = post.tags.map(tag => `<span class="text-muted">#${tag.name}</span>`).join(' ');
     postElement.querySelector('.post-reading-time').textContent = `${post.readingTime}`;
-    postElement.querySelector('.post-comments-count').textContent = `${post.commentsCount} комментариев`;
-    postElement.querySelector('.post-likes').textContent = `${post.likes} лайков`;
+    postElement.querySelector('.post-comments-count').textContent = `${post.commentsCount}`;
+    postElement.querySelector('.post-likes').textContent = `${post.likes}`;
 
     postsContainer.appendChild(postElement);
   });
@@ -147,6 +141,12 @@ function renderPagination(page, total) {
   }
 }
 applyChangesBtn.addEventListener('click', () => {
+  const filters = collectFilters();
+  updateUrl(filters);
+});
+
+postsPerPageInput.addEventListener('change', () => {
+  postsPerPage = parseInt(postsPerPageInput.value) || 5;
   const filters = collectFilters();
   updateUrl(filters);
 });

@@ -1,6 +1,6 @@
 <div class="container my-3" style="max-width: 1100px;">
   <div class="d-flex justify-content-end mb-2">
-    <button class="btn btn-primary btn-sm d-none"  id="write-post">Написать пост</button> 
+    <a href="/post/create" class="btn btn-primary btn-sm d-none"  id="write-post">Написать пост</a>
   </div>
 
   <div class="row">
@@ -76,11 +76,15 @@
           <i class="bi bi-chat-left-text fs-6" style="cursor: pointer;"></i>
         </div>
         <div class="d-flex align-items-center">
-          <span id="likeCount" class="me-2 fs-6 post-likes">0</span>
-          <i class="bi bi-heart text-muted fs-6" id="likeIcon" style="cursor: pointer;"></i>
+          <span class="me-2 fs-6 post-likes">0</span>
+          <i class="bi bi-heart text-muted fs-6" style="cursor: pointer;" id="likeIcon"></i>
         </div>
       </div>
     </div>
+  </div>
+
+  <div id="errorMessage" class="alert alert-danger d-none mt-3" role="alert">
+    Необходимо авторизоваться!
   </div>
   
 

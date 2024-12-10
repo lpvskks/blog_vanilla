@@ -1,0 +1,66 @@
+<div class="container py-4" style="max-width: 1100px;">
+  <div class="border border-muted rounded p-3">
+    <h2 class="mb-3">Написать новый пост</h2>
+
+    <div class="row mb-3">
+      <div class="col-md-8">
+        <label for="postTitle" class="form-label">Название</label>
+        <input type="text" id="postTitle" class="form-control px-3">
+      </div>
+      <div class="col-md-4">
+        <label for="readingTime" class="form-label">Время чтения</label>
+        <input type="number" id="readingTime" class="form-control px-3">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="groupSelect" class="form-label">Группа</label>
+        <select id="groupSelect" class="form-select">
+          <option disabled selected>Загрузка...</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="tagSelect" class="form-label">Тэги</label>
+        <select id="tagSelect" class="form-select form-control-sm px-3" multiple style="max-height: 72px;">
+          <option disabled>Загрузка...</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label for="imageLink" class="form-label">Ссылка на картинку</label>
+        <input type="text" id="imageLink" class="form-control" placeholder="Вставьте ссылку на картинку">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label for="postText" class="form-label">Текст</label>
+        <textarea id="postText" class="form-control" rows="5" placeholder="Напишите текст..."></textarea>
+      </div>
+    </div>
+
+    <h3 class="mb-3">Адрес</h3>
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+      <label for="regionSelect" class="form-label">Субъект РФ</label>
+      <select id="regionSelect" class="form-select">
+        <option disabled selected>Не выбран</option>
+      </select>
+    </div>
+    </div>
+
+    <div class="row">
+      <div class="col text-end">
+        <button id="createPostButton" class="btn btn-primary text-white">Создать пост</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/pages/mainPage/tags.js" defer></script>
+<script type="module" src="/src/pages/post/createPost/loadGroup.js" defer></script>
+<script type="module" src="/src/pages/post/createPost/createPost.js" defer></script>
