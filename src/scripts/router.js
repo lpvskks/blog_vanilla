@@ -7,6 +7,7 @@ const routes = {
   "/communities": "/src/pages/community/communityList/communityList.html",
   "/communities/{id}": "/src/pages/community/specificCommunity/specificCommunity.html",
   "/post/create": "/src/pages/post/createPost/createPost.html",
+  "/authors": "/src/pages/author/author.html",
 };
 
 export const navigateTo = (path) => {
