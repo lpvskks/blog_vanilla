@@ -1,3 +1,4 @@
+import { handleLike } from './likeHandler.js';
 const api = 'https://blog.kreosoft.space/api/post';
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -104,7 +105,7 @@ function renderPosts(posts) {
   posts.forEach(post => {
     const postElement = postTemplate.cloneNode(true);
     postElement.classList.remove('d-none');
-
+    postElement.setAttribute('data-post-id', post.id);
     postElement.querySelector('.post-author').textContent = `${post.author} - ${new Date(post.createTime).toLocaleString()}`;
     postElement.querySelector('.post-title').textContent = post.title;
     postElement.querySelector('.post-description').textContent = post.description;
@@ -113,6 +114,14 @@ function renderPosts(posts) {
     postElement.querySelector('.post-comments-count').textContent = `${post.commentsCount}`;
     postElement.querySelector('.post-likes').textContent = `${post.likes}`;
 
+    const likeIcon = postElement.querySelector('#likeIcon');
+    if (post.hasLike) {
+      likeIcon.classList.remove('bi-heart', 'text-muted');
+      likeIcon.classList.add('bi-heart-fill', 'text-danger');
+    } else {
+      likeIcon.classList.remove('bi-heart-fill', 'text-danger');
+      likeIcon.classList.add('bi-heart', 'text-muted');
+    }
     postsContainer.appendChild(postElement);
   });
 }
@@ -150,5 +159,18 @@ postsPerPageInput.addEventListener('change', () => {
   const filters = collectFilters();
   updateUrl(filters);
 });
+
+postsContainer.addEventListener('click', (event) => {
+  const target = event.target;
+
+  if (target.classList.contains('bi-heart') || target.classList.contains('bi-heart-fill')) {
+    const postElement = target.closest('.post-template');
+    const postId = postElement.getAttribute('data-post-id'); // Получаем ID поста
+    const likeCountElement = postElement.querySelector('.post-likes');
+
+    handleLike(postId, target, likeCountElement);
+  }
+});
+
 
 loadPosts(collectFilters());  

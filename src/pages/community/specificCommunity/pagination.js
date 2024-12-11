@@ -1,3 +1,4 @@
+import { handleLike } from "../../mainPage/likeHandler";
 const api = 'https://blog.kreosoft.space/api/community';
 const urlParams = new URLSearchParams(window.location.search);
 const communityId = window.location.pathname.split('/').pop();
@@ -97,6 +98,7 @@ function renderPosts(posts) {
     const postElement = postTemplate.cloneNode(true);
     postElement.classList.remove('d-none');
 
+    postElement.setAttribute('data-post-id', post.id);
     postElement.querySelector('.post-author').textContent = `${post.author} - ${new Date(post.createTime).toLocaleString()}`;
     postElement.querySelector('.post-title').textContent = post.title;
     postElement.querySelector('.post-description').textContent = post.description;
@@ -105,6 +107,15 @@ function renderPosts(posts) {
     postElement.querySelector('.post-comments-count').textContent = post.commentsCount;
     postElement.querySelector('.post-likes').textContent = post.likes;
 
+    const likeIcon = postElement.querySelector('#likeIcon');
+    if (post.hasLike) {
+      likeIcon.classList.remove('bi-heart', 'text-muted');
+      likeIcon.classList.add('bi-heart-fill', 'text-danger');
+    } else {
+      likeIcon.classList.remove('bi-heart-fill', 'text-danger');
+      likeIcon.classList.add('bi-heart', 'text-muted');
+    }
+    
     postsContainer.appendChild(postElement);
   });
 }
@@ -131,7 +142,6 @@ function renderPagination(page, total) {
   }
 }
 
-// Слушатели событий
 applyChangesBtn.addEventListener('click', () => {
   const sorting = sortSelect.value;
   selectedTags = Array.from(tagSelect.selectedOptions).map(option => option.value);
@@ -164,6 +174,18 @@ sortSelect.addEventListener('change', () => {
 });
 
 tagSelect.addEventListener('change', () => {
+});
+
+postsContainer.addEventListener('click', (event) => {
+  const target = event.target;
+
+  if (target.classList.contains('bi-heart') || target.classList.contains('bi-heart-fill')) {
+    const postElement = target.closest('.post-template');
+    const postId = postElement.getAttribute('data-post-id');
+    const likeCountElement = postElement.querySelector('.post-likes');
+
+    handleLike(postId, target, likeCountElement);
+  }
 });
 
 loadCommunityDetails();
