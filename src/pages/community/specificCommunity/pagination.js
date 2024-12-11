@@ -99,6 +99,10 @@ function renderPosts(posts) {
     postElement.classList.remove('d-none');
 
     postElement.setAttribute('data-post-id', post.id);
+
+    const postLink = postElement.querySelector('.post-link');
+    postLink.href = `/post/${post.id}`; 
+    
     postElement.querySelector('.post-author').textContent = `${post.author} - ${new Date(post.createTime).toLocaleString()}`;
     postElement.querySelector('.post-title').textContent = post.title;
     postElement.querySelector('.post-description').textContent = post.description;

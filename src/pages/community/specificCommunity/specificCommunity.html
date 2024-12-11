@@ -4,7 +4,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <h3 class="mb-0">Группа "<span id="community-name">Загрузка...</span>"</h3>
         <div class="d-flex">
-          <button class="btn btn-primary btn-sm d-none" id="write-post">Написать пост</button>
+          <a href="/post/create" class="btn btn-primary btn-sm d-none"  id="write-post">Написать пост</a>
           <button class="btn btn-primary btn-sm d-none" id="subscribe-btn">Подписаться</button>
         </div>
       </div>
@@ -84,7 +84,9 @@
         <span class="text-secondary fw-normal post-author">Автор - Время</span>
       </div>
       <div class="px-3">
-        <h5 class="fw-bold post-title">Заголовок поста</h5>
+        <a href="#" class="post-link text-dark text-decoration-none hover:text-decoration-underline">
+          <h5 class="fw-bold post-title">Заголовок поста</h5>
+        </a>
         <hr class="mt-1 mb-2">
       </div>
       <div class="px-3">

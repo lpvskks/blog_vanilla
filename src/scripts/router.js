@@ -8,6 +8,7 @@ const routes = {
   "/communities/{id}": "/src/pages/community/specificCommunity/specificCommunity.html",
   "/post/create": "/src/pages/post/createPost/createPost.html",
   "/authors": "/src/pages/author/author.html",
+  "/post/{postId}": "/src/pages/post/postPage.html",
 };
 
 export const navigateTo = (path) => {
@@ -25,10 +26,14 @@ const handleLocation = async () => {
     if (!response.ok) {
       throw new Error(`Ошибка загрузки маршрута: ${matchedRoute}`);
     }
-    const html = await response.text();
-    document.getElementById("app").innerHTML = html;
 
-    executePageScripts(document.getElementById("app"));
+    const html = await response.text();
+    const appContainer = document.getElementById("app");
+    appContainer.innerHTML = html;
+
+    removeDynamicScripts();
+
+    loadExternalScripts(appContainer);
   } catch (error) {
     console.error("Ошибка загрузки маршрута:", error);
   }
@@ -47,21 +52,23 @@ const matchRoute = (location) => {
   return null;
 };
 
-const executePageScripts = (container) => {
-  const scripts = container.querySelectorAll("script");
+const loadExternalScripts = (container) => {
+  const scripts = container.querySelectorAll("script[src]");
   scripts.forEach((script) => {
     const newScript = document.createElement("script");
+    newScript.src = `${script.src}?t=${Date.now()}`; 
     newScript.type = script.type;
-
-    if (script.src) {
-      newScript.src = script.src;
-    } else {
-      newScript.textContent = script.textContent;
-    }
-
+    newScript.dataset.dynamic = "true"; 
     document.body.appendChild(newScript);
-    newScript.onload = () => console.log(`Скрипт ${script.src || "inline"} загружен.`);
+
+    newScript.onload = () =>
+      console.log(`Динамический скрипт ${script.src} успешно загружен.`);
   });
+};
+
+const removeDynamicScripts = () => {
+  const dynamicScripts = document.querySelectorAll("script[data-dynamic='true']");
+  dynamicScripts.forEach((script) => script.remove());
 };
 
 document.addEventListener("click", (event) => {

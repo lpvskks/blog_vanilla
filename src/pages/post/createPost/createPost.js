@@ -43,7 +43,6 @@ document.getElementById('createPostButton').addEventListener('click', async () =
     });
 
     if (response.ok) {
-      const result = await response.json();
       alert('Пост успешно создан!');
     } else {
       const error = await response.json();
