@@ -13,6 +13,12 @@ async function fetchCommunityData() {
     const allCommunities = await allCommunitiesResponse.json();
     const userRoles = {};
 
+    const communitiesData = allCommunities.map(community => ({
+      id: community.id,
+      name: community.name,
+    }));
+    localStorage.setItem('communities', JSON.stringify(communitiesData));
+    
     if (token) {
       const userCommunitiesResponse = await fetch(`${url}/my`, {
         method: 'GET',
