@@ -22,12 +22,6 @@ const applyChangesBtn = document.getElementById('applyChanges');
 
 const token = localStorage.getItem('authToken');
 
-let debounceTimeout = null;
-function debounceRequest(callback, delay) {
-  clearTimeout(debounceTimeout);
-  debounceTimeout = setTimeout(callback, delay);
-}
-
 function updateUrl(page, pageSize, sorting, tags) {
   const params = new URLSearchParams();
   params.set('page', page);

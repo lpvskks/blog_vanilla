@@ -179,6 +179,24 @@ postsPerPageInput.addEventListener('change', () => {
   updateUrl(filters);
 });
 
+prevPageBtn.addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--; 
+    const filters = collectFilters(); 
+    filters.page = currentPage; 
+    updateUrl(filters); 
+  }
+});
+
+nextPageBtn.addEventListener('click', () => {
+  if (currentPage < totalPages) {
+    currentPage++; 
+    const filters = collectFilters(); 
+    filters.page = currentPage; 
+    updateUrl(filters); 
+  }
+});
+
 postsContainer.addEventListener('click', (event) => {
   const target = event.target;
 

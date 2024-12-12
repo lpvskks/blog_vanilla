@@ -6,21 +6,21 @@
       <div class="col-md-8">
         <label for="postTitle" class="form-label">Название</label>
         <input type="text" id="postTitle" class="form-control px-3">
+        <div id="titleError" class="text-danger" style="display: none;">Название поста должно быть длиной от 5 до 1000 знаков.</div>
       </div>
       <div class="col-md-4">
         <label for="readingTime" class="form-label">Время чтения</label>
         <input type="number" id="readingTime" class="form-control px-3">
+        <div id="readingTimeError" class="text-danger" style="display: none;">Время чтения не может быть отрицательным.</div>
       </div>
     </div>
 
-    <div class="row mb-3">
-      <div class="row mb-3 d-none" id="groupRow">
-        <div class="col-md-6">
-          <label for="groupSelect" class="form-label">Группа</label>
-          <select id="groupSelect" class="form-select">
-            <option disabled selected>Загрузка...</option>
-          </select>
-        </div>
+    <div class="row mb-3 align-items-start">
+      <div class="col-md-6 d-none" id="groupRow">
+        <label for="groupSelect" class="form-label">Группа</label>
+        <select id="groupSelect" class="form-select">
+          <option disabled selected>Загрузка...</option>
+        </select>
       </div>
       <div class="col-md-6">
         <label for="tagSelect" class="form-label">Тэги</label>
@@ -29,11 +29,13 @@
         </select>
       </div>
     </div>
+    
 
     <div class="row mb-3">
       <div class="col-md-12">
         <label for="imageLink" class="form-label">Ссылка на картинку</label>
         <input type="text" id="imageLink" class="form-control" placeholder="Вставьте ссылку на картинку">
+        <div id="imageLinkError" class="text-danger" style="display: none;">Поле изображения не является действительным полностью квалифицированным URL-адресом (http, https или ftp).</div>
       </div>
     </div>
 
@@ -41,6 +43,7 @@
       <div class="col-md-12">
         <label for="postText" class="form-label">Текст</label>
         <textarea id="postText" class="form-control" rows="5" placeholder="Напишите текст..."></textarea>
+        <div id="postTextError" class="text-danger" style="display: none;">Описание должно быть длиной от 5 до 5000 знаков.</div>
       </div>
     </div>
 

@@ -93,8 +93,8 @@ async function subscribeToCommunity(communityId, button) {
       button.className = 'btn btn-danger';
       button.onclick = () => unsubscribeFromCommunity(communityId, button);
     } else if (response.status === 401) {
-      console.warn('Необходимо авторизоваться (401)');
-      showErrorMessage('Необходимо авторизоваться!');
+      localStorage.removeItem('authToken');
+      navigateTo('/login');
     } else {
       const errorData = await response.json();
       console.error('Ошибка при подписке:', errorData.message);
@@ -123,8 +123,8 @@ async function unsubscribeFromCommunity(communityId, button) {
       button.className = 'btn btn-primary';
       button.onclick = () => subscribeToCommunity(communityId, button);
     } else if (response.status === 401) {
-      console.warn('Необходимо авторизоваться (401)');
-      showErrorMessage('Необходимо авторизоваться!');
+      localStorage.removeItem('authToken');
+      navigateTo('/login');
     } else {
       const errorData = await response.json();
       console.error('Ошибка при отписке:', errorData.message);
@@ -133,15 +133,6 @@ async function unsubscribeFromCommunity(communityId, button) {
     console.error('Ошибка в unsubscribeFromCommunity:', error);
   }
 }
-
-function showErrorMessage(message) {
-  console.log('Показываем сообщение об ошибке:', message);
-  const errorMessage = document.getElementById('errorMessage');
-  errorMessage.textContent = message;
-  errorMessage.classList.remove('d-none');
-  setTimeout(() => errorMessage.classList.add('d-none'), 2000);
-}
-
 const communityId = window.location.pathname.split('/').pop();
 
 initCommunityButtons(communityId);

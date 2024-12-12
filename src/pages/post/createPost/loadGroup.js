@@ -47,5 +47,4 @@ async function loadCommunities() {
   }
 }
 
-// Вызов функции загрузки
 loadCommunities();

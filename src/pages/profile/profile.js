@@ -51,6 +51,17 @@ async function saveProfileData() {
     return;
   }
 
+  if (birthDate) {
+    const birthDateObject = new Date(birthDate);
+    const today = new Date();
+    const age = (today - birthDateObject) / (1000 * 60 * 60 * 24 * 365.25); 
+
+    if (age < 14) {
+      showErrorMessage("Регистрация доступна только для пользователей старше 14 лет.");
+      return;
+    }
+  }
+
   const birthDateFormatted = birthDate ? new Date(birthDate).toISOString() : null;
   const phoneFormatted = phoneNumber ? phoneNumber : null;
 
@@ -78,6 +89,10 @@ async function saveProfileData() {
     }
 
     showSuccess("Данные успешно изменены!");
+    setTimeout(() => {
+      navigateTo("/"); 
+    }, 1000); 
+  
   } catch (error) {
     showErrorMessage(error.message || "Произошла ошибка. Попробуйте позже.");
   }

@@ -24,7 +24,18 @@ registerBtn.addEventListener("click", async (event) => {
   if (!name || !gender || !email || !password) {
     error.textContent = "Необходимо заполнить обязательные поля.";
     return;
-  }
+  };
+
+  if (birthdate) {
+    const birthDate = new Date(birthdate);
+    const today = new Date();
+    const age = (today - birthDate) / (1000 * 60 * 60 * 24 * 365.25); 
+  
+    if (age < 14) {
+      error.textContent = "Регистрация доступна только для пользователей старше 14 лет.";
+      return;
+    }
+  };
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
@@ -73,6 +84,7 @@ registerBtn.addEventListener("click", async (event) => {
     setTimeout(() => {
       navigateTo("/login");
     }, 1000); 
+
    } else {
         error.textContent = "Ошибка: токен авторизации не получен.";
       }

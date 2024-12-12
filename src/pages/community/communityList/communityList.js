@@ -115,7 +115,8 @@ async function unsubscribeFromCommunity(communityId, button) {
       button.className = 'btn btn-primary';
       button.onclick = () => subscribeToCommunity(communityId, button);
     } else if (response.status === 401) {
-      showErrorMessage('Необходимо авторизоваться!');
+      localStorage.removeItem('authToken');
+      navigateTo('/login');
     } else {
       const errorData = await response.json();
       console.error('Ошибка при отписке:', errorData.message);

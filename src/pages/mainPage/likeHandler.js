@@ -1,3 +1,5 @@
+import { navigateTo } from "/src/scripts/router.js";
+
 export async function handleLike(postId, likeIcon, likeCountElement) {
   const apiUrl = `https://blog.kreosoft.space/api/post/${postId}/like`;
   const token = localStorage.getItem('authToken');
@@ -23,7 +25,8 @@ export async function handleLike(postId, likeIcon, likeCountElement) {
         likeCountElement.textContent = parseInt(likeCountElement.textContent) + 1;
       }
     } else if (response.status === 401) {
-      alert('Необходимо авторизоваться!');
+      localStorage.removeItem('authToken');
+      navigateTo('/login');
     } else {
       console.error('Ошибка при выполнении действия:', response.statusText);
     }
