@@ -121,6 +121,13 @@ function renderPosts(posts) {
     postElement.querySelector('.post-comments-count').textContent = `${post.commentsCount}`;
     postElement.querySelector('.post-likes').textContent = `${post.likes}`;
 
+    if (post.image) {
+      const imageContainer = postElement.querySelector('.post-image-container');
+      const imageElement = postElement.querySelector('.post-image');
+      imageElement.src = post.image; 
+      imageContainer.classList.remove('d-none'); 
+    }
+
     const postTitle = postElement.querySelector('.post-title');
     postTitle.onclick = () => {
       navigateTo(`post/${post.id}`); 

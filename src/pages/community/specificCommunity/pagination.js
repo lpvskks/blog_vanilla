@@ -115,6 +115,13 @@ function renderPosts(posts) {
     postElement.querySelector('.post-reading-time').textContent = post.readingTime;
     postElement.querySelector('.post-comments-count').textContent = post.commentsCount;
     postElement.querySelector('.post-likes').textContent = post.likes;
+    
+    if (post.image) {
+      const imageContainer = postElement.querySelector('.post-image-container');
+      const imageElement = postElement.querySelector('.post-image');
+      imageElement.src = post.image; 
+      imageContainer.classList.remove('d-none'); 
+    }
 
     const likeIcon = postElement.querySelector('#likeIcon');
     if (post.hasLike) {
