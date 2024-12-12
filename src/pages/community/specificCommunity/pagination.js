@@ -182,6 +182,7 @@ postsPerPageInput.addEventListener('change', () => {
   const newPostsPerPage = parseInt(postsPerPageInput.value);
   if (newPostsPerPage > 0) {
     postsPerPage = newPostsPerPage;
+    updateUrl(currentPage, postsPerPage, sortSelect.value, selectedTags);  
   }
 });
 
