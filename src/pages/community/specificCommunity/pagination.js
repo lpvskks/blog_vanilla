@@ -1,4 +1,7 @@
 import { handleLike } from "../../mainPage/likeHandler";
+import { navigateTo } from "/src/scripts/router.js";
+import { showFull } from "../../mainPage/showFull";
+
 const api = 'https://blog.kreosoft.space/api/community';
 const urlParams = new URLSearchParams(window.location.search);
 const communityId = window.location.pathname.split('/').pop();
@@ -100,12 +103,14 @@ function renderPosts(posts) {
 
     postElement.setAttribute('data-post-id', post.id);
 
-    const postLink = postElement.querySelector('.post-link');
-    postLink.href = `/post/${post.id}`; 
-    
     postElement.querySelector('.post-author').textContent = `${post.author} - ${new Date(post.createTime).toLocaleString()}`;
     postElement.querySelector('.post-title').textContent = post.title;
-    postElement.querySelector('.post-description').textContent = post.description;
+
+    const postDescription = postElement.querySelector('.post-description');
+    const fullDescription = post.description;
+
+    showFull(postDescription, fullDescription); 
+
     postElement.querySelector('.post-tags').innerHTML = post.tags.map(tag => `<span class="text-muted">#${tag.name}</span>`).join(' ');
     postElement.querySelector('.post-reading-time').textContent = post.readingTime;
     postElement.querySelector('.post-comments-count').textContent = post.commentsCount;
@@ -119,7 +124,11 @@ function renderPosts(posts) {
       likeIcon.classList.remove('bi-heart-fill', 'text-danger');
       likeIcon.classList.add('bi-heart', 'text-muted');
     }
-    
+    const postTitle = postElement.querySelector('.post-title');
+    postTitle.onclick = () => {
+      navigateTo(`/post/${post.id}`); 
+    };
+
     postsContainer.appendChild(postElement);
   });
 }
@@ -145,6 +154,7 @@ function renderPagination(page, total) {
     paginationNumbers.appendChild(pageBtn);
   }
 }
+
 
 applyChangesBtn.addEventListener('click', () => {
   const sorting = sortSelect.value;

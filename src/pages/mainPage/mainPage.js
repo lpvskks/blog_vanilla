@@ -1,4 +1,7 @@
 import { handleLike } from './likeHandler.js';
+import { navigateTo } from "/src/scripts/router.js";
+import { showFull } from './showFull.js';
+
 const api = 'https://blog.kreosoft.space/api/post';
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -108,12 +111,21 @@ function renderPosts(posts) {
     postElement.setAttribute('data-post-id', post.id);
     postElement.querySelector('.post-author').textContent = `${post.author} - ${new Date(post.createTime).toLocaleString()}`;
     postElement.querySelector('.post-title').textContent = post.title;
-    postElement.querySelector('.post-description').textContent = post.description;
+    const postDescription = postElement.querySelector('.post-description');
+    const fullDescription = post.description;
+
+    showFull(postDescription, fullDescription); 
+
     postElement.querySelector('.post-tags').innerHTML = post.tags.map(tag => `<span class="text-muted">#${tag.name}</span>`).join(' ');
     postElement.querySelector('.post-reading-time').textContent = `${post.readingTime}`;
     postElement.querySelector('.post-comments-count').textContent = `${post.commentsCount}`;
     postElement.querySelector('.post-likes').textContent = `${post.likes}`;
 
+    const postTitle = postElement.querySelector('.post-title');
+    postTitle.onclick = () => {
+      navigateTo(`post/${post.id}`); 
+    };
+    
     const likeIcon = postElement.querySelector('#likeIcon');
     if (post.hasLike) {
       likeIcon.classList.remove('bi-heart', 'text-muted');
@@ -165,7 +177,7 @@ postsContainer.addEventListener('click', (event) => {
 
   if (target.classList.contains('bi-heart') || target.classList.contains('bi-heart-fill')) {
     const postElement = target.closest('.post-template');
-    const postId = postElement.getAttribute('data-post-id'); // Получаем ID поста
+    const postId = postElement.getAttribute('data-post-id'); 
     const likeCountElement = postElement.querySelector('.post-likes');
 
     handleLike(postId, target, likeCountElement);
